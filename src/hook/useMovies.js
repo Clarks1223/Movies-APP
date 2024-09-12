@@ -7,7 +7,7 @@ export function useMoviesApi({ search, sort }) {
   const [error, setError] = useState();
 
   const previousSearch = useRef(search);
-  
+
   //se inyecta el search por parametros para que se ejecute una sola vez
   const getMovies = useCallback(async ({ search }) => {
     //evitar que se haga la misma busqueda 2 veces
@@ -21,6 +21,7 @@ export function useMoviesApi({ search, sort }) {
       setMovies(newMovies);
     } catch (e) {
       setError(e.message);
+      console.log(error);
     } finally {
       //se ejecuta tanto en el try como en el catch
       setLoading(false);
