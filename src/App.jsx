@@ -5,17 +5,21 @@ import { useMoviesApi } from './hook/useMovies.js';
 //importo el custom hook search
 import { useSearch } from './hook/useSearch.js';
 //import noResponseFilms from './mocks/no-films.json';
-
+import { useState } from 'react';
 function App() {
-  
+  //ordena las peliculas por titulo de forma alfabetica
+  const [sort, setSort] = useState(false);
 
   const { search, updateSearch, error } = useSearch();
-  const { movies, getMovies, loading } = useMoviesApi({ search });
+  const { movies, getMovies, loading } = useMoviesApi({ search, sort });
 
   const handleSubmit = (event) => {
     //evita que el formulario se reinicie
     event.preventDefault();
-    getMovies();
+    getMovies({ search });
+  };
+  const handleSort = () => {
+    setSort(!sort);
   };
 
   const handleChange = (event) => {
@@ -37,6 +41,7 @@ function App() {
             name="query"
             placeholder="Norbit, Exodo, Super man"
           />
+          <input type="checkbox" onChange={handleSort} checked={sort} />
           <button type="submit">Buscar</button>
         </form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
