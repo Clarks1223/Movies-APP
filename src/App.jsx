@@ -1,13 +1,14 @@
 import './App.css';
 import { Movies } from './components/Movie';
 //importo el custom hook movies
-import { useMoviesApi } from './hook/useMovies.js';
+import { useMoviesApi } from './hook/useMoviesApi.js';
 //importo el custom hook search
 import { useSearch } from './hook/useSearch.js';
 //import noResponseFilms from './mocks/no-films.json';
 import { useCallback, useState } from 'react';
 //importo el debounce
 import debounce from 'just-debounce-it';
+
 function App() {
   //ordena las peliculas por titulo de forma alfabetica
   const [sort, setSort] = useState(false);
@@ -29,7 +30,7 @@ function App() {
   };
 
   const handleSort = () => {
-    setSort(!sort);
+    if (movies) setSort(!sort);
   };
 
   const handleChange = (event) => {
@@ -39,6 +40,7 @@ function App() {
     //Busqueda automaticamente al escribir
     debouncedGetMovies(newSearch);
   };
+
   return (
     <div className="page">
       <header>
@@ -54,7 +56,10 @@ function App() {
             name="query"
             placeholder="Norbit, Exodo, Super man"
           />
-          <input type="checkbox" onChange={handleSort} checked={sort} />
+          <label>
+            Ordenar por titulo
+            <input type="checkbox" onChange={handleSort} checked={sort} />
+          </label>
           <button type="submit">Buscar</button>
         </form>
         {error && <p style={{ color: 'red' }}>{error}</p>}

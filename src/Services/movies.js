@@ -5,11 +5,13 @@ export const searchMovies = async ({ search }) => {
   try {
     //fetch de datos
     const response = await fetch(
-      `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_APIKEY}&s=${search}`
+      `https://www.omdbapi.com/?apikey=${
+        import.meta.env.VITE_APIKEY
+      }&s=${search}`
     );
     const json = await response.json();
-
     const movies = json.Search;
+    
     //se define el formato que tiene el obejto que llega (mapeo de datos)
     return movies?.map((movie) => ({
       id: movie.imdbID,
